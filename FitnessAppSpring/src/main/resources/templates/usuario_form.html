@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${usuario.idUsuario} != null ? 'Editar Usuario' : 'Nuevo Usuario'"></title>
+
+    <!-- ✅ Bootstrap desde WebJars -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}"/>
+
+    <style>
+        body {
+            background-color: #f7f8fa;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 60px;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-custom {
+            background-color: #0d6efd;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0b5ed7;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card p-4">
+        <h4 class="text-center mb-4" th:text="${usuario.idUsuario} != null ? 'Editar Usuario' : 'Registrar Usuario'"></h4>
+
+        <!-- ✅ Formulario enlazado al objeto 'usuario' -->
+        <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+
+            <input type="hidden" th:field="*{idUsuario}"/>
+
+            <div class="mb-3">
+                <label class="form-label">Nombre</label>
+                <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ingrese nombre" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Correo</label>
+                <input type="email" th:field="*{correo}" class="form-control" placeholder="Ingrese correo" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <input type="password" th:field="*{contrasenha}" class="form-control" placeholder="Ingrese contraseña" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Rol</label>
+                <select th:field="*{rol}" class="form-select" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="USER">USER</option>
+                </select>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a th:href="@{/usuarios}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-custom">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ Scripts desde WebJars -->
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

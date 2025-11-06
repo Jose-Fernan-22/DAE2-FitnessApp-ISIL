@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Planes</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header bg-success text-white text-center py-3">
+            <h3 class="fw-bold mb-0">📋 Administración de Planes</h3>
+        </div>
+
+        <div class="card-body">
+            <!-- Botón para agregar un nuevo plan -->
+            <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/planes/nuevo}" class="btn btn-primary">
+                    ➕ Nuevo Plan
+                </a>
+            </div>
+
+            <!-- Tabla de planes -->
+            <table class="table table-striped table-hover align-middle text-center">
+                <thead class="table-success">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Plan</th>
+                        <th>Categoría</th>
+                        <th>Duración (meses)</th>
+                        <th>Entrenamientos/mes</th>
+                        <th>Precio (S/)</th>
+                        <th>Faltas máx.</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="plan : ${planes}">
+                        <td th:text="${plan.idPlan}"></td>
+                        <td th:text="${plan.nombrePlan}"></td>
+                        <td th:text="${plan.categoria}"></td>
+                        <td th:text="${plan.duracionMeses}"></td>
+                        <td th:text="${plan.entrenamientosPorMes}"></td>
+                        <td th:text="${plan.precio}"></td>
+                        <td th:text="${plan.maxFaltasPermitidas}"></td>
+                        <td>
+                            <a th:href="@{'/planes/editar/' + ${plan.idPlan}}" 
+                               class="btn btn-warning btn-sm">
+                                ✏️ Editar
+                            </a>
+                            <a th:href="@{'/planes/eliminar/' + ${plan.idPlan}}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Seguro que deseas eliminar este plan?')">
+                                🗑️ Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Mensaje cuando no hay planes -->
+            <div th:if="${#lists.isEmpty(planes)}" class="alert alert-info text-center">
+                No hay planes registrados actualmente.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

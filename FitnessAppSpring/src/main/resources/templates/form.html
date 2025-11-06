@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Membresía</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-warning text-dark text-center py-3">
+            <h3 class="fw-bold mb-0">🧾 Formulario de Membresía</h3>
+        </div>
+
+        <div class="card-body px-5">
+            <form th:action="@{/membresias/guardar}" th:object="${membresia}" method="post">
+
+                <input type="hidden" th:field="*{idMembresia}" />
+
+                <!-- Selección de usuario -->
+                <div class="mb-3">
+				    <label class="form-label fw-bold">Usuario:</label>
+				    <select class="form-select" th:field="*{usuario.idUsuario}" required>
+				        <option value="">-- Seleccione un usuario --</option>
+				        <option th:each="u : ${usuarios}" 
+				                th:value="${u.idUsuario}" 
+				                th:text="${u.nombre}"></option>
+				    </select>
+				</div>
+
+                <!-- Selección de plan -->
+				<div class="mb-3">
+				    <label class="form-label fw-bold">Plan:</label>
+				    <select class="form-select" th:field="*{plan.idPlan}" required>
+				        <option value="">-- Seleccione un plan --</option>
+				        <option th:each="p : ${planes}" 
+				                th:value="${p.idPlan}" 
+				                th:text="${p.nombrePlan}"></option>
+				    </select>
+				</div>
+
+                <!-- Fechas -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Fecha Inicio:</label>
+                        <input type="date" th:field="*{fechaInicio}" class="form-control" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Fecha Fin:</label>
+                        <input type="date" th:field="*{fechaFin}" class="form-control" required>
+                    </div>
+                </div>
+
+                <!-- Estado -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Estado:</label>
+                    <select class="form-select" th:field="*{estado}" required>
+                        <option value="">-- Seleccione un estado --</option>
+                        <option value="Vigente">Vigente</option>
+                        <option value="Vencida">Vencida</option>
+                        <option value="Suspendida">Suspendida</option>
+                    </select>
+                </div>
+
+                <!-- Botones -->
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success px-4">💾 Guardar</button>
+                    <a th:href="@{/membresias}" class="btn btn-secondary px-4 ms-2">↩️ Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

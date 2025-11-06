@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Membresías</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header bg-warning text-dark text-center py-3">
+            <h3 class="fw-bold mb-0">🎟️ Administración de Membresías</h3>
+        </div>
+
+        <div class="card-body">
+            <!-- Botón para agregar una nueva membresía -->
+            <div class="d-flex justify-content-end mb-3">
+                <a th:href="@{/membresias/nuevo}" class="btn btn-primary">
+                    ➕ Nueva Membresía
+                </a>
+            </div>
+
+            <!-- Tabla de membresías -->
+            <table class="table table-striped table-hover align-middle text-center">
+                <thead class="table-warning">
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Plan</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="m : ${membresias}">
+                        <td th:text="${m.idMembresia}"></td>
+                        <td th:text="${m.usuario.nombre}"></td>
+                        <td th:text="${m.plan.nombrePlan}"></td>
+                        <td th:text="${m.fechaInicio}"></td>
+                        <td th:text="${m.fechaFin}"></td>
+                        <td th:text="${m.estado}"></td>
+                        <td>
+                            <a th:href="@{'/membresias/editar/' + ${m.idMembresia}}" 
+                               class="btn btn-warning btn-sm">
+                                ✏️ Editar
+                            </a>
+                            <a th:href="@{'/membresias/eliminar/' + ${m.idMembresia}}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Seguro que deseas eliminar esta membresía?')">
+                                🗑️ Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Mensaje cuando no hay registros -->
+            <div th:if="${#lists.isEmpty(membresias)}" class="alert alert-info text-center">
+                No hay membresías registradas actualmente.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

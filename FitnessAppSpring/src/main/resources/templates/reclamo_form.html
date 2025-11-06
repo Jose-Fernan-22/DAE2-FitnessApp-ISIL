@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Reclamo</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-danger text-white text-center py-3">
+            <h3 class="fw-bold mb-0">📝 Formulario de Reclamo</h3>
+        </div>
+
+        <div class="card-body px-5">
+            <form th:action="@{/reclamos/guardar}" th:object="${reclamo}" method="post">
+
+                <input type="hidden" th:field="*{idReclamo}" />
+
+                <div class="mb-3">
+				    <label class="form-label fw-bold">Usuario que Reclama:</label>
+				    <select class="form-select" th:field="*{usuario.idUsuario}" required>
+				        <option value="">-- Seleccione un usuario --</option>
+				        <option th:each="u : ${usuarios}" 
+				                th:value="${u.idUsuario}" 
+				                th:text="${u.nombre} + ' (' + ${u.correo} + ')'"></option>
+				    </select>
+				</div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Fecha del Reclamo:</label>
+                    <input type="date" th:field="*{fechaReclamo}" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Descripción / Detalle:</label>
+                    <textarea th:field="*{descripcion}" class="form-control" rows="4" required></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Estado:</label>
+                    <select class="form-select" th:field="*{estado}" required>
+                        <option value="">-- Seleccione un estado --</option>
+                        <option th:each="e : ${estados}" 
+                                th:value="${e}" 
+                                th:text="${e}"></option>
+                    </select>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-danger px-4">💾 Guardar</button>
+                    <a th:href="@{/reclamos}" class="btn btn-secondary px-4 ms-2">↩️ Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

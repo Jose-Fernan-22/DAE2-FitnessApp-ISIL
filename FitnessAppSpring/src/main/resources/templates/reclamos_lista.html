@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Reclamos</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card border-0 shadow-lg rounded-4">
+        <div class="card-header bg-danger text-white text-center py-3">
+            <h3 class="fw-bold mb-0">🚨 Administración de Reclamos</h3>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+                <a th:href="@{/}" class="btn btn-secondary">
+                    🏠 Volver al Menú
+                </a>
+                <a th:href="@{/reclamos/nuevo}" class="btn btn-danger">
+                    ➕ Nuevo Reclamo
+                </a>
+            </div>
+
+            <table class="table table-striped table-hover align-middle text-center">
+                <thead class="table-danger">
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Fecha</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="r : ${reclamos}">
+                        <td th:text="${r.idReclamo}"></td>
+                        <td th:text="${r.usuario.nombre}"></td>
+                        <td th:text="${r.fechaReclamo}"></td>
+                        <td th:text="${#strings.substring(r.descripcion, 0, #strings.length(r.descripcion) > 50 ? 50 : #strings.length(r.descripcion))} + (${#strings.length(r.descripcion) > 50} ? '...' : '')"></td>
+                        <td th:text="${r.estado}" 
+                            th:classappend="${r.estado == 'Pendiente'} ? 'text-danger fw-bold' : (${r.estado == 'En Proceso'} ? 'text-warning fw-bold' : 'text-success fw-bold')"></td>
+                        <td>
+                            <a th:href="@{'/reclamos/editar/' + ${r.idReclamo}}" 
+                               class="btn btn-warning btn-sm">
+                                ✏️ Editar
+                            </a>
+                            <a th:href="@{'/reclamos/eliminar/' + ${r.idReclamo}}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Seguro que deseas eliminar este reclamo?')">
+                                🗑️ Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${#lists.isEmpty(reclamos)}" class="alert alert-info text-center">
+                No hay reclamos registrados actualmente.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
